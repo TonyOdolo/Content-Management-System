@@ -61,4 +61,4 @@
 </head>
 
 <body>
-<script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
