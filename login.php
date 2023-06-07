@@ -68,9 +68,10 @@ checkIfUserIsLoggedInAndRedirect('/blogsystem/admin');
 									</div>
 									<div >
 									<div >
-									<center><div id="g-signin-button" class="g-signin2" data-width="300" data-height="30" data-longtitle="true"></div></center>
+									<center><div id="g-signin-button"   class="g-signin2" data-width="300" data-height="30" data-longtitle="true"></div></center>
 									</div>
 									</div>
+									
 									
 									
 
@@ -193,7 +194,7 @@ function init() {
 		alert("fkjdfhg kjf");
     return;
       gapi.auth2.init({
-        client_id : '<?=$googleCredentials->getClientId()?>',
+        client_id : '< ?my_access_token_accessToken??=$googleCredentials->getClientId()?>',
       });
     });
   }

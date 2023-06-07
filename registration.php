@@ -71,23 +71,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
         }
         if(isset($_SESSION['lang'] )){
            include  "includes/Languages/". $_SESSION['lang'].".php";
-        }else {
-            include  "includes/Languages/eng.php";
-
         }
 
 
+    }else {
+        include  "includes/Languages/eng.php";
+
     }
 
-
-    
   
-    
     ?>
-
-
-
-
 
     <!-- Page Content -->
     <div class="container">
