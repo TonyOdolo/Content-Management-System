@@ -1,12 +1,12 @@
-
-
 <?php include "../includes/db.php";
 ?>
 
 
 <?php include "functions.php";
 ?>
-<?php ob_start(); ?>
+
+
+<!-- ob_start();  -->
 
 <?php session_start(); ?>
 
@@ -57,10 +57,17 @@ if(!isset($_SESSION['user_role'])){
 <!-- ck editor -->
 <script src="https://cdn.ckeditor.com/ckeditor5/37.0.1/classic/ckeditor.js"></script>
 
+<!-- Jquery -->
+<script src="js/jquery.js"></script>
+
+
+
 
 
 
 
 </head>
 
+
 <body>
+<!-- <div id ='load-screen'> <div id ='loading'></div></div> -->

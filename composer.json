@@ -1,0 +1,22 @@
+{
+    "name": "thd/blog-system",
+    "require": {
+        "phpmailer/phpmailer": "^6.8",
+        "google/apiclient": "^2.12.1",
+        "abraham/twitteroauth":"^4.0"
+    
+    },
+    "autoload": {
+        "psr-4": {
+            "Thd\\BlogSystem\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tony Odolo",
+            "email": "tonyodolo391@gmail.com"
+        }
+    ],
+
+    "config": { "process-timeout":0 }
+}

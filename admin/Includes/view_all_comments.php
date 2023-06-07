@@ -1,5 +1,3 @@
-
-
 <!-- Query to use select options to change comment_status  -->
 <?php 
 if(isset($_POST['checkBoxArray'])){

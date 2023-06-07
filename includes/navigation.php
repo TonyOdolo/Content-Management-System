@@ -9,7 +9,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">Content Management System</a>
+                <a class="navbar-brand" href="/blogsystem">Content Management System</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -19,22 +19,99 @@
                 $select_categories_query = mysqli_query($connection,$query);
                 while($row = mysqli_fetch_assoc($select_categories_query )) {
                     $cat_title = $row['cat_title'];
-                echo "<li><a href='#'>{$cat_title}</a></li>";
+                    $cat_id = $row['cat_id'];
+
+
+
+
+                        // Active links on the categories reg and contact         
+                    $category_class = '';
+                    $registration_class = '';
+                    $contact_class = '';
+                    $login_class = '';
+                    $pageName = basename($_SERVER['PHP_SELF']);
+                    $registration = '/blogsystem/registration';
+                    $contact = '/blogsystem/contact';
+                    $login = '/blogsystem/login';
+
+                    if (isset($_GET['category']) && $_GET['category'] == $cat_id){
+
+                        $category_class = 'active';
+
+                        
+                    }else if($pageName == $registration){
+                        $registration_class = 'active';
+                    }else if($pageName == $contact){
+                        $contact_class = 'active';
+                    }else if ($pageName == $login) {
+                        $login_class = 'active';
+                    }
+                        
+
+                echo "<li><a href='/blogsystem/category/{$cat_id}'>{$cat_title}</a></li>";
                 }   
                 ?>
+
+
+
                 <li>
-                <a href="Admin">Admin</a>
+                    <?php if(isLoggedIn()): ?>
+                    <li>
+                    <a href="/blogsystem/Admin">Admin</a>
+                    </li>
+                    <li>
+                    <a href="/blogsystem/includes/logout.php">Log Out</a>
+                    </li>
+
+
+                    <?php else: ?>
+                    <li class = '<?php echo $login_class ?>'>
+                    <?php if (!isset($_SESSION['my_access_token_accessTo'])) {
+
+                        ?>
+                    
+                        <a href="/blogsystem/login">Login</a>
+                    <?php
+                    }else {
+                        ?>
+                         <a href="/blogsystem/includes/logout.php">Log Out</a>
+                        <?php
+                    }
+                    ?>
+                    </li>
+                    <?php endif; ?>
+
+
+
+
+                      
+
+                
                 </li>
-                <li>
-                <a href="registration.php">Registration</a>
+
+
+
+
+                <li class = '<?php echo $registration_class ?>' >
+                <a href="/blogsystem/registration">Registration</a>
                 </li>
+                <li class = '<?php echo $contact_class ?>'>
+                <a href="/blogsystem/contact">Contact</a>
+                </li>
+
+               
+                
+
+
+
+
 
 <?php
 if(isset($_SESSION['user_role'])){
 if(isset($_GET['p_id'])){
 
 $the_post_id = $_GET['p_id'];
-echo "<li><a href='admin/posts.phhp?source=edit_post&p_id={$the_post_id}'>Edit Post</a></li>";
+echo "<li><a href='/blogsystem/admin/posts.php?source=edit_post&p_id={$the_post_id}'>Edit Post</a></li>";
 }
 } 
 ?>

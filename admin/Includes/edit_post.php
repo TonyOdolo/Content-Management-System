@@ -25,8 +25,8 @@ $post_user = escape($_POST['post_user']);
 $post_title = escape($_POST['post_title']);
 $post_category_id = escape($_POST['post_category']);
 $post_status = escape($_POST['post_status']);
-$post_image = escape($_FILES['image']['name']);
-$post_image_temp = escape($_FILES['image']['tmp_name']);
+$post_image = $_FILES['image']['name'];
+$post_image_temp = $_FILES['image']['tmp_name'];
 $post_content = escape($_POST['post_content']);
 $post_tags = escape($_POST['post_tags']);
 
@@ -149,7 +149,7 @@ $update_post = mysqli_query($connection, $query);
       <div class="form-group">
          <label for="post_content">Post Content</label>
          <textarea class="form-control "name="post_content" id="body" cols="30" rows="10">
-         <?php echo $post_content;?>
+         <?php echo str_replace('\r\n', '</br>', $post_content);?>
          </textarea>
       </div>
       

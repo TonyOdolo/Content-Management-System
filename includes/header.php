@@ -12,11 +12,16 @@
     <title>Blog Home</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/blogsystem/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/blog-home.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/blogsystem/css/blog-home.css" rel="stylesheet">
+    <link href="/blogsystem/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    
+
+	<meta name="google-signin-client_id" content="466262686595-45cjjaf5u6cp539jb4aa90kvk6o8vugq.apps.googleusercontent.com" >
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -25,6 +30,35 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <?php session_start(); ?>
+    <?php include "Admin/functions.php"; ?>
+
+    <style>
+        a.like,a.unlike,p.likes , p.login-to-post{
+            font-size: 22px;
+           
+
+        }
+
+
+        .fa {
+            padding: 10px;
+            font-size: 20px;
+            width: 50px;
+            text-align: center;
+            text-decoration: none;
+            background: black;
+            color: white;
+        }
+
+        .fa:hover{
+            opacity: 0.7;
+        }
+    </style>
+
+    
+
 </head>
 
 <body>
+<script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>

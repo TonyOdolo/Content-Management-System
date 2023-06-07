@@ -3,79 +3,142 @@
 
 
     <!-- Navigation -->
-    
     <?php  include "includes/navigation.php"; ?>
 
     <?php
-    // catching the data into the database
-    if (isset($_POST['submit'])) {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] == "POST"){
+    $username = escape($_POST['username']);
+    $email =  escape($_POST['email']);
+    $password =  escape($_POST['password']);
 
-        // To validate
-    
-        if (!empty($username) && !empty($email) && !empty($password)) {
+        $error = [
+            'username' => '',
+            'email' => '',
+            'password' => ''
+        ];
+        
+//Lets validate the username
+        if(strlen($username) < 4){
+            $error['username'] = 'Username needs to be longer';
 
-
-            // prevent sql injection
-            $username = mysqli_real_escape_string($connection, $username);
-            $email = mysqli_real_escape_string($connection, $email);
-            $password = mysqli_real_escape_string($connection, $password);
-
-            // To encrypt passwords
-            $password = password_hash($password, PASSWORD_BCRYPT, array('cost', 10));
-
-
-
-
-
-
-            // query to insert into the database
-    
-            $query = "INSERT IGNORE INTO users (username, user_email, user_password, user_role) ";
-            $query .= "VALUES ('{$username}', '{$email}', '{$password}', 'Subscriber')";
-
-            $register_user_query = mysqli_query($connection, $query);
-
-            if (!$register_user_query) {
-                die("Query FAILED" . mysqli_error($connection));
-            }
-
-
-        } else {
-            echo "<script>alert('Fields cannot be empty')</script>";
+        }
+        if (strlen($username = '')) {
+            $error['username'] = 'Username cannot be empty';
+        }
+        if (username_exists($username)) {
+            $error['username'] = 'Username already exists';
         }
 
-    }
+        //lets validate the email
+        if (strlen($email = '')) {
+            $error['email'] = 'Please input email';
+        }
+        if (email_exists($email)) {
+            $error['email'] = 'Email already exists';
+        }
+
+        // Lets Validate the password
+        if (strlen($password = '')) {
+            $error['password'] = 'Please input password ';
+        }
+        
+
+        // looping into the error array
+        foreach ($error as $key => $value) {
+            if(empty($value)){
+                unset($error[$key]);             
+            }
+
+        }
+        if(empty($error)){
+            register_user($username, $email, $password);
+                login_user($username, $password);
+        }
+
+
+
+}
     ?>
     
- 
+
+    <?php
+    if(!empty(isset($_GET['lang']))){
+        $_SESSION['lang'] = $_GET['lang'];
+
+        if(isset($_SESSION['lang'] ) && $_SESSION['lang'] != $_GET['lang'] ) {
+
+            echo "<script type = 'text/javascript'>location.reload(); </script>"; 
+        }
+        if(isset($_SESSION['lang'] )){
+           include  "includes/Languages/". $_SESSION['lang'].".php";
+        }else {
+            include  "includes/Languages/eng.php";
+
+        }
+
+
+    }
+
+
+    
+  
+    
+    ?>
+
+
+
+
+
     <!-- Page Content -->
     <div class="container">
+
+    <form method="get" class = " nav-form navbar-right"  action= "" id= "language-form">
+    <div class = "form-group">
+        <select name="lang" class="form-control" onchange="changeLanguage()" >
+        
+        <option value="eng" <?php  if(isset($_SESSION['lang'] ) && $_SESSION['lang'] = 'eng' ) {
+
+echo "Selected:"; 
+}?>>English</option>
+        <option value="french"  <?php  if(isset($_SESSION['lang'] ) && $_SESSION['lang'] = 'french' ) {
+
+echo "Selected:"; 
+}?>>French</option>
+        </select>
+    </div>   
+</form>
 <section id="login">
     <div class="container">
         <div class="row">
             <div class="col-xs-6 col-xs-offset-3">
                 <div class="form-wrap">
-                <h1>Register</h1>
+                <h1><?php echo _REGISTER;?></h1>
                     <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
                         <div class="form-group">
                             <label for="username" class="sr-only">username</label>
-                            <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username" required>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="<?php echo _USERNAME;?> autocomplete="on" value= "<?php echo isset($username) ? $username: '' ?>"> 
+
+                            <p><?php echo isset($error['username']) ? $error['username'] : '' ?></p>
+                            
                         </div>
+                        
+                        
+
                          <div class="form-group">
                             <label for="email" class="sr-only">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="somebody@example.com" required>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="<?php echo _EMAIL;?>" autocomplete="on" value= "<?php echo isset($email)? $email: '' ?>" >
+                            <p><?php echo isset($error['email']) ? $error['email']: '' ?></p>
                         </div>
+
+
                          <div class="form-group">
                             <label for="password" class="sr-only">Password</label>
-                            <input type="password" name="password" id="key" class="form-control" placeholder="Password"  required>
+                            <input type="password" name="password" id="key" class="form-control" placeholder="<?php echo _PASSWORD;?>" >
+                            <p><?php echo isset($error['password']) ? $error['password'] : '' ?></p>
                         </div>
                 
-                        <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
-                    </form>
-                 
+                        <input type="submit" name="register" id="btn-login" class="btn btn-primary btn-lg btn-block" value="<?php echo _REGISTER;?>">
+                    </form>          
                 </div>
             </div> <!-- /.col-xs-12 -->
         </div> <!-- /.row -->
@@ -84,6 +147,13 @@
 
 
         <hr>
+
+        <script>
+function changeLanguage() {
+    document.getElementById('language-form').submit();
+    
+}
+        </script>
 
 
 

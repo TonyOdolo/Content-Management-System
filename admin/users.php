@@ -2,8 +2,16 @@
  include "Includes/admin_header.php"; 
  ?>
 
-    <div id="wrapper">
 
+<?php 
+if(!is_Admin($_SESSION['username'])){
+    header("Location: index.php");
+}
+
+
+?>
+
+    <div id="wrapper">
         <!-- Navigation -->
 
         <?php

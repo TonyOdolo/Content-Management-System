@@ -1,15 +1,11 @@
 <?php include "Includes/admin_header.php" ?>
 
     <div id="wrapper">
-  
-
         <!-- Navigation -->
 
         <?php include "Includes/admin_navigation.php" ?>   
 
             <!-- /.navbar-collapse -->
-        
-
         <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -21,7 +17,8 @@
 
                         <h1 class="page-header">
                             Welcome to Admin
-                            <small><?php  echo getUsername(); ?></small>
+                            <small><?php echo getUsername(); ?></small>
+                            
                         </h1>
 
                         
@@ -40,7 +37,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
 <!-- Query to count the total number of posts -->
-<div class='huge'><?php echo $posts_count_query = recordcount('posts');?> </div>                  
+<div class='huge'><?php echo $posts_count_query = countRecords(getAllUserPosts());?> </div>
                         <div>Posts</div>
                     </div>
                 </div>
@@ -68,7 +65,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
 <!-- Query to count the total number of comments -->
-<div class='huge'><?php echo $comments_count_query = recordcount('comments');?> </div> 
+<div class='huge'><?php echo $comments_count_query = countRecords(getAllPostUserComments());?> </div>
                       <div>Comments</div>
                     </div>
                 </div>
@@ -85,36 +82,6 @@
 
 
 
-
-    <!-- users widget -->
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-yellow">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-user fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-
-                    <!-- Query to count the total number of users -->
-<div class='huge'><?php echo $users_count_query = recordcount('users');?> </div>
-
-
-                        <div> Users</div>
-                    </div>
-                </div>
-            </div>
-            <a href="users.php">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
-    </div>
-
-
     <!-- categories widget -->
     <div class="col-lg-3 col-md-6">
         <div class="panel panel-red">
@@ -126,7 +93,7 @@
                     <div class="col-xs-9 text-right">
 
                     <!-- Query to count the total number of categories -->
-                    <div class='huge'><?php echo $categories_count_query = recordcount('categories');?> </div>  
+                    <div class='huge'><?php echo $categories_count_query = countRecords(getAllPostUserCategories());?> </div>  
                          <div>Categories</div>
                     </div>
                 </div>
@@ -148,7 +115,7 @@
 
    <!-- Query to display published posts -->
 <?php
-$published_posts_count_query =  checkStatus('posts', 'post_status' , 'published');
+$published_posts_count_query = countRecords(getAllUserPublishedPosts());
 ?>    
 
 
@@ -156,34 +123,26 @@ $published_posts_count_query =  checkStatus('posts', 'post_status' , 'published'
 
     <!-- Query to display draft posts -->
 <?php
-$draft_posts_count_query = checkStatus('posts', 'post_status' , 'draft');
+$draft_posts_count_query = countRecords(getAllUserDraftPosts());
 ?>
 
 <!-- Query to display approved comments -->
 <?php
 
-$Approved_comments_count_query = checkStatus('comments', 'comment_status' , 'Approved');
+$Approved_comments_count_query = countRecords(getAllUserApprovedComments());
 ?>
 
 
     <!-- Query to display unapproved comments -->
 <?php
 
-$Unapproved_comments_count_query = checkStatus('comments', 'comment_status' , 'Unapproved');
+$Unapproved_comments_count_query = countRecords(getAllUserUnapprovedComments());
 ?>
 
 
-   <!-- Query to display Subscribers -->
-<?php
 
-$Subscribers_count_query = checkStatus('users', 'user_role' , 'Subscriber');
-?>
 
-<!-- Query to display Administrators -->
-<?php
 
-$Admin_count_query = checkStatus('users', 'user_role' , 'Admin');
-?>
 
 
 
@@ -206,10 +165,10 @@ $Admin_count_query = checkStatus('users', 'user_role' , 'Admin');
           ['Data', 'Count'],
         //   to display the data dynamically
           <?php
-          $element_text = ['All Posts',  'Published Posts' , 'Draft Posts','Comments','Approved Comments', 'Unapproved Comments', 'Users','Subscribers','Admin','Categories'];
-          $element_count = [$posts_count_query,$published_posts_count_query, $draft_posts_count_query,  $comments_count_query,$Approved_comments_count_query,  $Unapproved_comments_count_query, $users_count_query,  $Subscribers_count_query, $Admin_count_query, $categories_count_query];
+          $element_text = ['All Posts',  'Published Posts' , 'Draft Posts','Comments','Approved Comments', 'Unapproved Comments', 'Categories'];
+          $element_count = [$posts_count_query,$published_posts_count_query, $draft_posts_count_query,  $comments_count_query,$Approved_comments_count_query,  $Unapproved_comments_count_query,  $categories_count_query];
 
-          for ($i = 0; $i < 10; $i++){
+          for ($i = 0; $i < 7; $i++){
             echo "['{$element_text[$i]}', {$element_count[$i]}],";
           }
   
